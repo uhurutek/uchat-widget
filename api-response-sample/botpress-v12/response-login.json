@@ -1,0 +1,8 @@
+{
+	"status": "success",
+	"message": "Login successful",
+	"payload": {
+		"jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1haGFidWJ1bDQ3MEBnbWFpbC5jb20iLCJzdHJhdGVneSI6ImRlZmF1bHQiLCJ0b2tlblZlcnNpb24iOjQsImlzU3VwZXJBZG1pbiI6dHJ1ZSwiaWF0IjoxNzAyNDcwMDM3LCJleHAiOjE3MDI0NzM2MzcsImF1ZCI6ImNvbGxhYm9yYXRvcnMifQ.hX6eOWAPRejxqv3IYQfjU9-gVUyzX-pYoq-Nyl9m82w",
+		"exp": 3600000
+	}
+}

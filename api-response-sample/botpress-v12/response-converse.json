@@ -1,0 +1,63 @@
+{
+	"responses": [
+		{
+			"type": "text",
+			"workflow": {},
+			"text": "Hi, I am uhuruBot. Ask me about UhuruTek",
+			"typing": true
+		},
+		{
+			"type": "card",
+			"workflow": {},
+			"title": "Uhurutek",
+			"subtitle": "Solutions",
+			"image": "https://uhurutek.com/assets/img/uhurutek_logo.svg",
+			"actions": [
+				{
+					"action": "Open URL",
+					"title": "Visit Uhurutek Website",
+					"url": "https://uhurutek.com/"
+				}
+			],
+			"markdown": true
+		},
+		{
+			"type": "carousel",
+			"workflow": {},
+			"items": [
+				{
+					"markdown": false,
+					"title": "Customer Solution",
+					"subtitle": "Diagram",
+					"image": "http://bp.uhurutek.com:3000/api/v1/bots/uhurubot/media/xfdrn15uphqycwfzej2c-Customer%20Solution%20Diagram.png",
+					"actions": []
+				},
+				{
+					"markdown": false,
+					"title": "Google",
+					"subtitle": "Search Engine",
+					"image": "http://bp.uhurutek.com:3000/api/v1/bots/uhurubot/media/ujpdxym4yuc9sa0wrrns-AIArchitecture.png",
+					"actions": [
+						{
+							"action": "Open URL",
+							"title": "Google",
+							"url": "google.com"
+						},
+						{
+							"action": "Open URL",
+							"title": "Facebook",
+							"url": "facebook.com"
+						}
+					]
+				}
+			],
+			"typing": true
+		},
+		{
+			"type": "file",
+			"workflow": {},
+			"file": "http://bp.uhurutek.com:3000/api/v1/bots/uhurubot/media/pvemxyz1qys7kio0gbh5-Customer%20Solution%20Diagram.png",
+			"title": "Customer Solution"
+		}
+	]
+}
