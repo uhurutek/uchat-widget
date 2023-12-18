@@ -11,13 +11,13 @@ To add the chat widget to your website, follow these steps:
 1. Include the chat-widget style sheet from the CDN in your HTML head tag:
 
     ```html
-    <link rel="stylesheet" href="https://cdn.example.com/chat-widget.css">
+    <link rel="stylesheet" href="https://uchat-widget.netlify.app/chat-widget.css">
     ```
 
 2. Include the chat-widget script from the CDN at the bottom of your HTML body tag:
 
     ```html
-    <script src="https://cdn.example.com/chat-widget.js"></script>
+    <script src="https://uchat-widget.netlify.app/chat-widget.js"></script>
     ```
 
 3. Initialize the chat widget by calling the `initChatWidget` function with the container element ID:
