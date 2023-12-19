@@ -20,11 +20,11 @@ To add the chat widget to your website, follow these steps:
     <script src="https://uchat-widget.netlify.app/chat-widget.js"></script>
     ```
 
-3. Initialize the chat widget by calling the `initChatWidget` function with the container element ID:
+3. Initialize the chat widget by calling the `uChatWidget` function with the botpress API-endpoint parameters:
 
     ```html
     <script>
-      window.chatWidget({
+      window.uChatWidget({
         BP_API_ENDPOINT: "https://{botpress-server-url}/api/v1/bots/{botID}/converse/{userID}",
         });
     </script>
@@ -32,11 +32,35 @@ To add the chat widget to your website, follow these steps:
 
 4. Customize the chat widget appearance and behavior by modifying the provided CSS and JavaScript files.
 
+## Integratiom with framewokrs / libraries
+
+### NEXTJS Example
+
+```tsx
+<Html lang="en">
+    <Head>
+        <link rel="stylesheet" href="https://uchat-widget.netlify.app/chat-widget.css" />
+        <script type="text/javascript" id="hs-script-loader" async defer src="https://uchat-widget.netlify.app/chat-widget.js" />
+    </Head>
+    <body>
+        <Main />
+        <NextScript />
+        <script
+        dangerouslySetInnerHTML={{
+            __html: `
+            window.uChatWidget({
+            BP_API_ENDPOINT: "https://{botpress-server-url}/api/v1/bots/{botID}/converse/{userID}",
+            });
+        `,
+        }}
+        />
+    </body>
+</Html>
+```
+
 ## Customization
 
-The chat widget can be customized to match the look and feel of your website. The provided CSS file can be modified to change the widget's colors, fonts, and layout. The JavaScript file can be extended to add additional functionality or integrate with your existing systems.
-
-
+The chat widget can be customized to match the look and feel of your website. The provided CSS file can be modified to change the widget's colors, fonts, and layout.
 
 ## License
 
