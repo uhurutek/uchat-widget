@@ -1,4 +1,4 @@
-function chatWidget (config) {
+function uChatWidget (config) {
   const faScript = document.createElement('script');
   faScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js';
   document.head.appendChild(faScript);
