@@ -4,59 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://uchat-widget.netlify.app/chat-widget.css">   
-    <title>My Website</title>
-
+    <title>uChat Widget</title>
 </head>
 <body>
-<script src="https://uchat-widget.netlify.app/chat-widget.js"></script>   
-
+<script src="https://uchat-widget.netlify.app/chat-widget.js"></script>
 <script>
-    window.chatWidget({
+    window.uChatWidget({
+        HEADER: "uChat Widget",
         BP_API_ENDPOINT: "https://bp.uhurutek.com/api/v1/bots/uhurubot/converse/chat-widghet",
         });
 </script>
-
-<script>
-    function OpenaiFetchAPI() {
-        console.log("Calling GPT3")
-        var url = "https://api.openai.com/v1/engines/davinci/completions";
-        var bearer = 'Bearer ' + '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'
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': bearer,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "prompt": "Once upon a time",
-                "max_tokens": 5,
-                "temperature": 1,
-                "top_p": 1,
-                "n": 1,
-                "stream": false,
-                "logprobs": null,
-                "stop": "\n"
-            })
-    
-    
-        }).then(response => {
-            
-            return response.json()
-           
-        }).then(data=>{
-            console.log(data)
-            console.log(typeof data)
-            console.log(Object.keys(data))
-            console.log(data['choices'][0].text)
-            
-        })
-            .catch(error => {
-                console.log('Something bad happened ' + error)
-            });
-    
-    }
-</script>
-
 </body>
 </html>
-
