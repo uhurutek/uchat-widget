@@ -36,6 +36,16 @@ To add the chat widget to your website, follow these steps:
 
 ### NEXTJS Example
 
+- Add the following .env variables to your next projcet.
+
+```text
+    botpress_server_url=
+    botID=
+    userID=
+```
+
+- Add the uChatWidget style sheet & script in the src/pages/_document.tsx file.
+
 ```tsx
 <Html lang="en">
     <Head>
@@ -49,7 +59,7 @@ To add the chat widget to your website, follow these steps:
         dangerouslySetInnerHTML={{
             __html: `
             window.uChatWidget({
-            BP_API_ENDPOINT: "https://{botpress-server-url}/api/v1/bots/{botID}/converse/{userID}",
+            BP_API_ENDPOINT: "https://${process.env.NEXT_PUBLIC.botpress_server_url}/api/v1/bots/${process.env.NEXT_PUBLIC.botID}/converse/${process.env.NEXT_PUBLIC.userID}",
             });
         `,
         }}
