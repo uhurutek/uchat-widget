@@ -19,7 +19,7 @@ function uChatWidget (config) {
     <!-- Chat Popup -->
     <div id="chat-popup" class="bot-hidden bot-absolute bot-bottom-20 bot-right-0 bot-w-96 bot-bg-white bot-rounded-md bot-shadow-md bot-flex bot-flex-col bot-transition-all bot-text-sm">
       <div id="chat-header" class="bot-flex bot-justify-between bot-items-center bot-px-4 bot-bg-gray-200 bot-text-white bot-rounded-t-md">
-        <h3 class="m-0 text-lg">Department of Revenue and Customs</h3>
+        <h3 class="m-0 text-lg">${config.HEADER}</h3>
         <button id="close-popup" class="bot-bg-transparent bot-border-none bot-text-white cursor-pointer">
           <i class="far fa-window-close"></i>
         </button>
@@ -114,7 +114,7 @@ function uChatWidget (config) {
   }
 
   function fetchBotResponse(message) {
-    if(!config) {
+    if(!config.BP_API_ENDPOINT) {
       console.warn('BP_API_ENDPOINT is not defined');
       return;
     }
@@ -136,6 +136,7 @@ function uChatWidget (config) {
         console.error('Error:', error);
       });
   }
+
   //! TODO File type need to be define high level
   function decisionFileTypes(responses) {
     responses.forEach(response => {
@@ -147,7 +148,6 @@ function uChatWidget (config) {
         replyVideo(response);
       } else if (response.type === 'card') {
         replyCard(response);
-
       } else if (response.type === "carousel") {
         replayCarousel(response)
       } else if (response.type === "audio") {
@@ -160,7 +160,9 @@ function uChatWidget (config) {
   }
 
   function replyText(message) {
+    // Convert new line to <br>
     message = message.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    // Display bot message
     const chatMessages = document.getElementById('chat-messages');
     const replyElement = document.createElement('div');
     replyElement.className = 'bot-flex bot-mb-3';
@@ -173,6 +175,7 @@ function uChatWidget (config) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
+  // Reply file response
   function replyFile(file) {
     const chatMessages = document.getElementById('chat-messages');
     const replyElement = document.createElement('div');
@@ -201,6 +204,7 @@ function uChatWidget (config) {
     chatMessages.appendChild(replyElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
+
   function replyCard(cards) {
     const chatMessages = document.getElementById('chat-messages');
     const replyElement = document.createElement('div');
@@ -222,6 +226,7 @@ function uChatWidget (config) {
     chatMessages.appendChild(replyElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
+
   function replyAudio(audio) {
     const chatMessages = document.getElementById('chat-messages');
     const replyElement = document.createElement('div');
@@ -237,6 +242,7 @@ function uChatWidget (config) {
     chatMessages.appendChild(replyElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
+
   function replayCarousel(carousels) {
     const chatMessages = document.getElementById('chat-messages');
     const replyElement = document.createElement('div');
@@ -264,14 +270,17 @@ function uChatWidget (config) {
             </div>
         `;
     }
+
     function showNextCard() {
       currentCardIndex = (currentCardIndex + 1) % carousels.items.length;
       showCard(currentCardIndex);
     }
+
     function showPreviousCard() {
       currentCardIndex = (currentCardIndex - 1 + carousels.items.length) % carousels.items.length;
       showCard(currentCardIndex);
     }
+
     replyElement.addEventListener('click', (event) => {
       if (event.target.classList.contains('bot-next')) {
         showNextCard();
@@ -279,6 +288,7 @@ function uChatWidget (config) {
         showPreviousCard();
       }
     });
+
     // Show the initial card
     showCard(currentCardIndex);
     chatMessages.appendChild(replyElement);
