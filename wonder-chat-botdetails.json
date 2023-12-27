@@ -1,0 +1,159 @@
+[
+  {
+    "result": {
+      "data": {
+        "json": {
+          "code": 200,
+          "chatbot": {
+            "id": "clqf3qivq003wl022ucb38x1l",
+            "userId": "clqc8448a00z9js224ebwz2ra",
+            "name": "shurjopay",
+            "contactButtonLabel": null,
+            "contactButtonLink": "info@shurjomukhi.com.bd",
+            "pictureUrl": "https://res.cloudinary.com/diiak30kv/image/upload/c_lfill,f_auto,g_auto,h_300,q_auto,w_300/vclekvoj7ihpqrz7d1rl.jpg",
+            "role": "CUSTOMER_SUPPORT",
+            "chatbotState": "ENABLED",
+            "createdAt": "2023-12-21T11:10:55.766Z",
+            "urlsIndexedOn": [
+              {
+                "url": "https://shurjopay.com.bd",
+                "type": "ALL_SITE",
+                "subdir": ""
+              }
+            ],
+            "finishedCrawlingAt": null,
+            "updatedAt": "2023-12-21T11:10:55.766Z",
+            "accessibility": "PRIVATE",
+            "responseLength": "NORMAL",
+            "colorTheme": "#6232EB",
+            "recrawls": 1,
+            "urlsToIgnore": [""],
+            "error": "[]",
+            "customPrompt": "You are an AI assistant. You are helpful, professional, clever, and friendly. Do not answer any questions not related to the knowledge base.",
+            "language": "English",
+            "pdfPages": 0,
+            "shouldSpontaneouslyGreet": true,
+            "gdprConsentMessage": "Under the EU GDPR, we require your consent to use and store your personal information for ongoing communication, follow-ups, and updates on our services and promotions",
+            "openAiModel": "GPT35",
+            "exampleQuestions": [],
+            "chatbotDisabledMessage": null,
+            "temperature": 1,
+            "widgetEmbedUrlsToIgnore": [],
+            "rateLimitNumMessages": 11,
+            "rateLimitFrequencyInSeconds": 60,
+            "rateLimitedMessage": "",
+            "shouldCollectEmail": false,
+            "shouldCollectName": true,
+            "shouldCollectPhoneNumber": false,
+            "shouldCollectGdprConsent": false,
+            "emailCollectionMessage": "",
+            "nameCollectionMessage": "",
+            "phoneNumberCollectionMessage": "",
+            "isCollectionMandatory": false,
+            "collectFieldsAfterNumMessages": 0,
+            "customEmailCollectedMessage": null,
+            "customEmailCollectionMessage": null,
+            "greetingMessage": "Welcome to shurjoPay developed by shurjouMukhi",
+            "fallbackMessage": "I can only tell you about shurjoPay payment gateway. Nothing else.",
+            "shouldCiteSources": true,
+            "citeSourcesType": "MOST_SIMILAR",
+            "shouldCitePdfs": false,
+            "useSandwichRestrictionPrompt": false,
+            "useHybridSearch": false,
+            "useHybridSearchV2": false,
+            "searchStrategy": "VECTOR_SIMILARITY",
+            "linksStayOnSamePage": false,
+            "hidePoweredByWonderchat": false,
+            "researchMode": false,
+            "promptOverride": false,
+            "usePersonalDataTagging": false,
+            "leaveAnEmailMessage": "Leave us a message and we will reply as soon as possible",
+            "shouldAutoAskToLeaveEmail": false,
+            "autoAskToLeaveEmailThreshold": 4,
+            "enableLeavingAnEmail": false,
+            "supportEmails": ["imtiaz.rahi@outlook.com"],
+            "enableAutomaticRecrawling": false,
+            "automaticRecrawlingFrequency": "MONTHLY",
+            "enableLiveChat": false,
+            "whitelistedDomains": [],
+            "enableZendeskIntegration": false,
+            "owner": {
+              "subscriptionType": "NONE"
+            },
+            "onlineHourRanges": [
+              {
+                "id": "clqf3qivq003xl022dqfiw40l",
+                "chatbotId": "clqf3qivq003wl022ucb38x1l",
+                "onlineHourStart": "1970-06-01T03:00:00.000Z",
+                "onlineHourEnd": "1970-06-01T11:00:00.000Z",
+                "isActive": false
+              },
+              {
+                "id": "clqf3qivq003yl022n5mfi16t",
+                "chatbotId": "clqf3qivq003wl022ucb38x1l",
+                "onlineHourStart": "1970-06-02T03:00:00.000Z",
+                "onlineHourEnd": "1970-06-02T11:00:00.000Z",
+                "isActive": false
+              },
+              {
+                "id": "clqf3qivq003zl02287oexg37",
+                "chatbotId": "clqf3qivq003wl022ucb38x1l",
+                "onlineHourStart": "1970-06-03T03:00:00.000Z",
+                "onlineHourEnd": "1970-06-03T11:00:00.000Z",
+                "isActive": false
+              },
+              {
+                "id": "clqf3qivq0040l0222ayjoklz",
+                "chatbotId": "clqf3qivq003wl022ucb38x1l",
+                "onlineHourStart": "1970-06-04T03:00:00.000Z",
+                "onlineHourEnd": "1970-06-04T11:00:00.000Z",
+                "isActive": false
+              },
+              {
+                "id": "clqf3qivq0041l022u784uw8m",
+                "chatbotId": "clqf3qivq003wl022ucb38x1l",
+                "onlineHourStart": "1970-06-05T03:00:00.000Z",
+                "onlineHourEnd": "1970-06-05T11:00:00.000Z",
+                "isActive": false
+              },
+              {
+                "id": "clqf3qivq0042l022eg26tsm7",
+                "chatbotId": "clqf3qivq003wl022ucb38x1l",
+                "onlineHourStart": "1970-06-06T03:00:00.000Z",
+                "onlineHourEnd": "1970-06-06T11:00:00.000Z",
+                "isActive": false
+              },
+              {
+                "id": "clqf3qivq0043l022nmpbt62j",
+                "chatbotId": "clqf3qivq003wl022ucb38x1l",
+                "onlineHourStart": "1970-06-07T03:00:00.000Z",
+                "onlineHourEnd": "1970-06-07T11:00:00.000Z",
+                "isActive": false
+              }
+            ]
+          }
+        },
+        "meta": {
+          "values": {
+            "chatbot.createdAt": ["Date"],
+            "chatbot.updatedAt": ["Date"],
+            "chatbot.onlineHourRanges.0.onlineHourStart": ["Date"],
+            "chatbot.onlineHourRanges.0.onlineHourEnd": ["Date"],
+            "chatbot.onlineHourRanges.1.onlineHourStart": ["Date"],
+            "chatbot.onlineHourRanges.1.onlineHourEnd": ["Date"],
+            "chatbot.onlineHourRanges.2.onlineHourStart": ["Date"],
+            "chatbot.onlineHourRanges.2.onlineHourEnd": ["Date"],
+            "chatbot.onlineHourRanges.3.onlineHourStart": ["Date"],
+            "chatbot.onlineHourRanges.3.onlineHourEnd": ["Date"],
+            "chatbot.onlineHourRanges.4.onlineHourStart": ["Date"],
+            "chatbot.onlineHourRanges.4.onlineHourEnd": ["Date"],
+            "chatbot.onlineHourRanges.5.onlineHourStart": ["Date"],
+            "chatbot.onlineHourRanges.5.onlineHourEnd": ["Date"],
+            "chatbot.onlineHourRanges.6.onlineHourStart": ["Date"],
+            "chatbot.onlineHourRanges.6.onlineHourEnd": ["Date"]
+          }
+        }
+      }
+    }
+  }
+]
