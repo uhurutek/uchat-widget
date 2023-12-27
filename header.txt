@@ -1,0 +1,76 @@
+Request URL:
+https://app.wonderchat.io/api/chat?question=hi&chatlogId=clqnrbihe00h8n6226s6gphe0&userToken=ETZUiRxYVW1EQtOOP6XvvRKphS4ukD0N&widgetButtonSize=normal&chatbotId=clqf3qivq003wl022ucb38x1l
+Request Method:
+GET
+Status Code:
+200 OK
+Remote Address:
+104.21.12.162:443
+Referrer Policy:
+strict-origin-when-cross-origin
+
+Access-Control-Allow-Headers:
+X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version
+Access-Control-Allow-Methods:
+GET,OPTIONS,PATCH,DELETE,POST,PUT
+Access-Control-Allow-Origin:
+*
+Alt-Svc:
+h3=":443"; ma=86400
+Cache-Control:
+no-cache
+Cf-Cache-Status:
+DYNAMIC
+Cf-Ray:
+83c19ed868b6786d-DAC
+Content-Security-Policy:
+frame-ancestors 'self' *
+Content-Type:
+text/event-stream
+Date:
+Wed, 27 Dec 2023 12:38:25 GMT
+Nel:
+{"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+Report-To:
+{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=YRlHPtFRwCF0lMPM57o%2FKixHst6cfe5vQuojGj2KgFS1NZ5hOvviQaoNPai1%2BS0cDDkoGBB1l8%2B%2Fzfi6ydsupJ1qfEvHOsAYHtW1RNMaoTwzUqCRlS%2Fhyz1ml4BvGSFlCNv24A%3D%3D"}],"group":"cf-nel","max_age":604800}
+Rndr-Id:
+b15d03cc-fdb9-41f2
+Server:
+cloudflare
+Vary:
+Accept-Encoding
+X-Render-Origin-Server:
+Render
+:authority:
+app.wonderchat.io
+:method:
+GET
+:path:
+/api/chat?question=hi&chatlogId=clqnrbihe00h8n6226s6gphe0&userToken=ETZUiRxYVW1EQtOOP6XvvRKphS4ukD0N&widgetButtonSize=normal&chatbotId=clqf3qivq003wl022ucb38x1l
+:scheme:
+https
+Accept:
+text/event-stream
+Accept-Encoding:
+gzip, deflate, br
+Accept-Language:
+en-US,en;q=0.9
+Cache-Control:
+no-cache
+Referer:
+https://app.wonderchat.io/widget/clqf3qivq003wl022ucb38x1l?widgetButtonSize=normal
+Sec-Ch-Ua:
+"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"
+Sec-Ch-Ua-Mobile:
+?0
+Sec-Ch-Ua-Platform:
+"Linux"
+Sec-Fetch-Dest:
+empty
+Sec-Fetch-Mode:
+cors
+Sec-Fetch-Site:
+same-origin
+User-Agent:
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+
