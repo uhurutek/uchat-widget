@@ -1,4 +1,32 @@
-function uChatWidget(config) {
+async function uChatWidget(config) {
+    const isTablet = window.matchMedia("only screen and (min-width: 768px) and (max-width: 1024px)").matches;
+    const isMobile = window.matchMedia("only screen and (max-width: 767px)").matches;
+    const country = (new Date()).toString().split('(')[1].split(" ")[0]
+    const uniqueID = Math.random().toString(36).substr(2, 9) + '_' + new Date().getTime();
+    const client_ip = await fetch('https://checkip.amazonaws.com')
+        .then(res => res.text());
+    const browserAgent = navigator.userAgent;
+    const deviceType = isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Computer';
+    const os = navigator.platform
+    const browserType = getBrowserType()
+    const localValue = localStorage.getItem('uhuruBot');
+    const primaryPayload = {
+        "id": uniqueID,
+        "client_ip": client_ip,
+        "browserAgent": browserAgent,
+        "device": deviceType,
+        "os": os,
+        "browser": browserType,
+        "country": country,
+        "bot": {
+            "id": config.BOT_ID,
+        }
+
+    }
+
+
+
+
     if (!config.BASE_COLOR) {
         config.BASE_COLOR = "#9f4923"
     }
@@ -329,6 +357,9 @@ function uChatWidget(config) {
     // });
 
     function onUserRequest(message) {
+
+        if (!localValue) localStorage.setItem('uhuruBot', uniqueID);
+
         const messageElement = document.createElement("div");
         messageElement.className = "bot-flex bot-justify-end bot-mb-3";
         messageElement.innerHTML = `
@@ -343,7 +374,28 @@ function uChatWidget(config) {
         fetchBotResponse(message);
     }
 
+
+
     function fetchBotResponse(message) {
+
+        let payLoad;
+        if (!localValue) {
+            payLoad = {
+                type: "text", //! Need to remove this line later
+                text: message,
+                //! ...primaryPayload //Need to uncomment this line after getting api
+            }
+        } else {
+            payLoad = {
+                type: "text", //! Need to remove this line later
+                text: message,
+                author: {
+                    id: localValue
+                }
+            }
+        }
+
+
         if (!config.BP_API_ENDPOINT) {
             console.warn("BP_API_ENDPOINT is not defined");
             return;
@@ -354,8 +406,9 @@ function uChatWidget(config) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: "text",
+                type: "text", //! Need to remove this line later
                 text: message,
+                //! ...primaryPayload //Need to uncomment this line after getting api
             }),
         })
             .then((response) => response.json())
@@ -367,12 +420,11 @@ function uChatWidget(config) {
             });
     }
 
-    //! TODO File type need to be define high level
     function decisionFileTypes(responses) {
         responses.forEach((response) => {
             if (response.type === "text") {
                 replyText(response.text);
-            } else if (response.type === "file") {
+            } else if (response.type === "link") {
                 replyLink(response);
             }
         });
@@ -418,5 +470,30 @@ function uChatWidget(config) {
       `;
         chatMessages.appendChild(replyElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function getBrowserType() {
+        const test = regexp => {
+            return regexp.test(navigator.userAgent);
+        };
+        if (test(/opr\//i) || !!window.opr) {
+            return 'Opera';
+        } else if (test(/edg/i)) {
+            return 'Microsoft Edge';
+        } else if (test(/chrome|chromium|crios/i)) {
+            return 'Google Chrome';
+        } else if (test(/firefox|fxios/i)) {
+            return 'Mozilla Firefox';
+        } else if (test(/safari/i)) {
+            return 'Apple Safari';
+        } else if (test(/trident/i)) {
+            return 'Microsoft Internet Explorer';
+        } else if (test(/ucbrowser/i)) {
+            return 'UC Browser';
+        } else if (test(/samsungbrowser/i)) {
+            return 'Samsung Browser';
+        } else {
+            return 'Unknown browser';
+        }
     }
 }
