@@ -422,23 +422,34 @@ async function uChatWidget(config) {
   }
 
 
-  async function conversation(threadId, message) {
+  async function conversation(threadId, message, retries = 3, delayBetweenRetries = 120000) {
     try {
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error('Timeout after 30 seconds')), 30000);
       });
 
-      const responsePromise = fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/${message}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      let response;
+      for (let i = 0; i < retries; i++) {
+        const responsePromise = fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/${message}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-      const response = await Promise.race([responsePromise, timeoutPromise]);
+        response = await Promise.race([responsePromise, timeoutPromise]);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.ok) {
+          break;  // Exit the loop if the request is successful
+        }
+
+        // Log the error or perform additional handling for non-ok responses
+        console.warn(`Attempt ${i + 1} failed. HTTP error! Status: ${response.status}`);
+
+        if (i < retries - 1) {
+          // Wait before the next attempt, except for the last attempt
+          await new Promise(resolve => setTimeout(resolve, delayBetweenRetries));
+        }
       }
 
       const data = await response.text();
@@ -453,6 +464,7 @@ async function uChatWidget(config) {
       throw error;
     }
   }
+
 
 
 
