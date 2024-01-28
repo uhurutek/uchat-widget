@@ -316,20 +316,25 @@ async function uChatWidget(config) {
   const messageIcon = document.getElementById("msg-icon");
   const crossIcon = document.getElementById("cross-icon");
   const minimizeButton = document.getElementById("minimize-button");
+  let message;
 
-  chatSubmit.addEventListener("click", function () {
-    const message = chatInput?.value.trim();
-    if (!message) return;
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    chatInput?.value = "";
 
-    onUserRequest(message);
-  });
+
 
   chatInput.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
       chatSubmit.click();
+    } else {
+      message = chatInput.value.trim();
     }
+  });
+
+  chatSubmit.addEventListener("click", function () {
+    if (!message) return;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatInput.value = "";
+
+    onUserRequest(message);
   });
   minimizeButton.addEventListener("click", function () {
     togglePopup();
