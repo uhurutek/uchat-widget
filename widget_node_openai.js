@@ -318,8 +318,20 @@ async function uChatWidget(config) {
   const minimizeButton = document.getElementById("minimize-button");
   let message;
 
+  chatInput.addEventListener("keyup", function (event) {
+    if (event.key !== "Enter") {
+      message = chatInput.value
 
+    }
+  });
+  chatSubmit.addEventListener("click", function () {
+    message = message.trim();
+    if (!message) return;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatInput.value = "";
 
+    onUserRequest(message);
+  });
 
   chatInput.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
@@ -327,14 +339,6 @@ async function uChatWidget(config) {
     } else {
       message = chatInput.value.trim();
     }
-  });
-
-  chatSubmit.addEventListener("click", function () {
-    if (!message) return;
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    chatInput.value = "";
-
-    onUserRequest(message);
   });
   minimizeButton.addEventListener("click", function () {
     togglePopup();
