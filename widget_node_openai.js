@@ -290,9 +290,9 @@ async function uChatWidget(config) {
       <div id="chat-input-container" class="bot-p-4 bot-border-t bot-border-gray-200">
         <div class="bot-flex bot-space-x-4 bot-items-center">
           <input type="text" id="chat-input" style="border: 1px solid ${config.BASE_COLOR};" class="bot-flex-1 bot-rounded-md bot-px-4 bot-py-2 bot-outline-none w-3/4" placeholder="Type your message...">
-          <button id="chat-submit" style="margin-left: 3px; border: 1px solid ${config.BASE_COLOR};" class="bot-rounded-md  bot-px-4 bot-py-2 cursor-pointer" onclick=${clickSend()}>
-          <i class="fas fa-paper-plane" style="color: ${config.BASE_COLOR};"></i>
-        </button>
+          <div id="chat-submit" style="margin-left: 3px; border: 1px solid ${config.BASE_COLOR};" class="bot-rounded-md  bot-px-4 bot-py-2 cursor-pointer">
+            <i class="fas fa-paper-plane" style="color: ${config.BASE_COLOR};"></i>
+          </div>
         
         </div>
         <div class="bot-flex bot-text-center bot-justify-center bot-pt-4">
@@ -317,26 +317,18 @@ async function uChatWidget(config) {
   const crossIcon = document.getElementById("cross-icon");
   const minimizeButton = document.getElementById("minimize-button");
 
-  function clickSend() {
+  chatSubmit.addEventListener("click", function () {
     const message = chatInput.value.trim();
     if (!message) return;
     chatMessages.scrollTop = chatMessages.scrollHeight;
     chatInput.value = "";
-    onUserRequest(message);
-  }
 
-  // chatSubmit.addEventListener("click", function () {
-  //   const message = chatInput.value.trim();
-  //   if (!message) return;
-  //   chatMessages.scrollTop = chatMessages.scrollHeight;
-  //   chatInput.value = "";
-  //   onUserRequest(message);
-  // });
+    onUserRequest(message);
+  });
 
   chatInput.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
-      // chatSubmit.click();
-      clickSend()
+      chatSubmit.click();
     }
   });
   minimizeButton.addEventListener("click", function () {
