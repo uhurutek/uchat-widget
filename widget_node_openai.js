@@ -458,7 +458,7 @@ async function uChatWidget(config) {
      <img src="${config.AVATAR}" width="18px" height="18px" style="margin-right: 4px;">` : ` <svg xmlns="http://www.w3.org/2000/svg" style="padding-right: 5px" height="16" width="12" viewBox="0 0 384 512"><path fill="#9f4923" d="M32 32c17.7 0 32 14.3 32 32V288c0 70.7 57.3 128 128 128s128-57.3 128-128V64c0-17.7 14.3-32 32-32s32 14.3 32 32V288c0 106-86 192-192 192S0 394 0 288V64C0 46.3 14.3 32 32 32z"/></svg>
      `
       }
-      <div style="border: 1px solid ${config.BASE_COLOR};" class="bot-text-black bot-rounded-left bot-px-4 bot-py-2 bot-max-w-[70%]">
+      <div id="replay" style="border: 1px solid ${config.BASE_COLOR};" class="bot-text-black bot-rounded-left bot-px-4 bot-py-2 bot-max-w-[70%]">
       ${message}
       </div>
       </div>
