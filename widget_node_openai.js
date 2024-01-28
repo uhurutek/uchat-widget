@@ -316,26 +316,20 @@ async function uChatWidget(config) {
   const messageIcon = document.getElementById("msg-icon");
   const crossIcon = document.getElementById("cross-icon");
   const minimizeButton = document.getElementById("minimize-button");
-  let message;
-
-  chatInput.addEventListener("keyup", function (event) {
-    if (event.key !== "Enter") {
-      message = chatInput.value
-    }
-  });
-  chatSubmit.addEventListener("click", function () {
-    message = message.trim();
+  chatSubmit.addEventListener("click", function (event) {
+    event.preventDefault();
+    const message = chatInput.value.trim();
     if (!message) return;
+
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    message = "";
+    chatInput.value = "";
+
     onUserRequest(message);
   });
 
   chatInput.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
       chatSubmit.click();
-    } else {
-      message = chatInput.value.trim();
     }
   });
   minimizeButton.addEventListener("click", function () {
@@ -455,7 +449,6 @@ async function uChatWidget(config) {
 
 
   function replyText(message) {
-    // message = message.replace(/(?:\r\n|\r|\n)/g, "<br>");
     const chatMessages = document.getElementById("chat-messages");
     const replyElement = document.createElement("div");
     replyElement.className = "bot-flex bot-mb-3";
