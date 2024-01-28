@@ -448,7 +448,7 @@ async function uChatWidget(config) {
 
 
   function replyText(message) {
-    message = message.replace(/(?:\r\n|\r|\n)/g, "<br>");
+    // message = message.replace(/(?:\r\n|\r|\n)/g, "<br>");
     const chatMessages = document.getElementById("chat-messages");
     const replyElement = document.createElement("div");
     replyElement.className = "bot-flex bot-mb-3";
