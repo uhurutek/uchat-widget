@@ -317,7 +317,7 @@ async function uChatWidget(config) {
   const crossIcon = document.getElementById("cross-icon");
   const minimizeButton = document.getElementById("minimize-button");
   chatSubmit.addEventListener("click", function (event) {
-    event.preventDefault();
+
     const message = chatInput.value.trim();
     if (!message) return;
 
@@ -325,6 +325,7 @@ async function uChatWidget(config) {
     chatInput.value = "";
 
     onUserRequest(message);
+    event.preventDefault();
   });
 
   chatInput.addEventListener("keyup", function (event) {
