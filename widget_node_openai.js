@@ -424,28 +424,36 @@ async function uChatWidget(config) {
 
   async function conversation(threadId, message) {
     try {
-      const response = await fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/${message}`, {
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Timeout after 30 seconds')), 30000);
+      });
+
+      const responsePromise = fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/${message}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
+      const response = await Promise.race([responsePromise, timeoutPromise]);
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
       const data = await response.text();
       loading = false;
-      messageLoading()
-      replyText(data)
+      messageLoading();
+      replyText(data);
     } catch (error) {
       console.error("Error:", error);
       loading = false;
-      messageLoading()
-      replyText("Something went wrong. Please try again later")
+      messageLoading();
+      replyText("Something went wrong. Please try again later");
       throw error;
     }
   }
+
 
 
 
