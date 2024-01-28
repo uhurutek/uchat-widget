@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://uchat-widget.netlify.app/chat-widget.css">   
     <title>uChat Widget</title>
 </head>
+
 <body>
-<script src="https://uchat-widget.netlify.app/chat-widget.js"></script>
-<script>
-    window.uChatWidget({
-        HEADER: "uChat Widget",
-        BP_API_ENDPOINT: "https://bp.uhurutek.com/api/v1/bots/uhurubot/converse/chat-widghet",
+    <script src="./widget_node_openai.js"></script>
+    <script>
+        window.uChatWidget({
+            UHURUCHAT_ENDPOINT: "http://localhost:8000",
+            APP_NAME: "UhuruTek Solutions",
+            AVATAR: "https://uhurutek.com/assets/img/apple-touch-icon.png",
+            BASE_COLOR: "",
         });
-</script>
+    </script>
 </body>
+
 </html>
