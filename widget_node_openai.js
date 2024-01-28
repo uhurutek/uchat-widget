@@ -389,83 +389,72 @@ async function uChatWidget(config) {
     fetchBotResponse(message);
   }
 
-  async function fetchBotResponse(message) {
+  function fetchBotResponse(message) {
     if (!config.UHURUCHAT_ENDPOINT) {
       console.warn("UHURUCHAT_ENDPOINT is not defined");
       return;
     }
+
     let threadId;
-    if (!threadId) threadId = await initiatedChat();
-    await conversation(threadId, message)
-  }
-
-  async function initiatedChat() {
-    try {
-      const response = await fetch(`${config.UHURUCHAT_ENDPOINT}/chats`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    initiatedChat()
+      .then((id) => {
+        threadId = id;
+        return conversation(threadId, message);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const threadId = data.id;
-      return threadId;
-    } catch (error) {
-      console.error("Error:", error);
-      throw error;
-    }
   }
 
-
-  async function conversation(threadId, message, retries = 3, delayBetweenRetries = 120000) {
-    try {
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Timeout after 30 seconds')), 30000);
+  function initiatedChat() {
+    return fetch(`${config.UHURUCHAT_ENDPOINT}/chats`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const threadId = data.id;
+        return threadId;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        throw error;
       });
-
-      let response;
-      for (let i = 0; i < retries; i++) {
-        const responsePromise = fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/${message}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        response = await Promise.race([responsePromise, timeoutPromise]);
-
-        if (response.ok) {
-          break;  // Exit the loop if the request is successful
-        }
-
-        // Log the error or perform additional handling for non-ok responses
-        console.warn(`Attempt ${i + 1} failed. HTTP error! Status: ${response.status}`);
-
-        if (i < retries - 1) {
-          // Wait before the next attempt, except for the last attempt
-          await new Promise(resolve => setTimeout(resolve, delayBetweenRetries));
-        }
-      }
-
-      const data = await response.text();
-      loading = false;
-      messageLoading();
-      replyText(data);
-    } catch (error) {
-      console.error("Error:", error);
-      loading = false;
-      messageLoading();
-      replyText("Something went wrong. Please try again later");
-      throw error;
-    }
   }
 
-
+  function conversation(threadId, message) {
+    return fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/${message}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then((data) => {
+        loading = false;
+        messageLoading();
+        replyText(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        loading = false;
+        messageLoading();
+        replyText("Something went wrong. Please try again later");
+        throw error;
+      });
+  }
 
 
 
