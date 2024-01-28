@@ -321,15 +321,13 @@ async function uChatWidget(config) {
   chatInput.addEventListener("keyup", function (event) {
     if (event.key !== "Enter") {
       message = chatInput.value
-
     }
   });
   chatSubmit.addEventListener("click", function () {
     message = message.trim();
     if (!message) return;
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    chatInput.value = "";
-
+    message = "";
     onUserRequest(message);
   });
 
