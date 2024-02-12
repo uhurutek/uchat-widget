@@ -417,6 +417,9 @@ async function uChatWidget(config) {
       return threadId;
     } catch (error) {
       console.error("Error:", error);
+      loading = false;
+      messageLoading()
+      replyText("Something went wrong. Please try again later")
       throw error;
     }
   }
@@ -424,7 +427,7 @@ async function uChatWidget(config) {
 
   async function conversation(threadId, message) {
     try {
-      const response = await fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/${message}`, {
+      const response = await fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${config.ASSISTANT_ID}/${threadId}/${message}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
