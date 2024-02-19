@@ -1,8 +1,13 @@
 async function uChatWidget(config) {
+    if (!config.BASE_COLOR) {
+        config.BASE_COLOR = "#9f4923"
+    }
+    let threadId;
+    let loading;
     const isTablet = window.matchMedia("only screen and (min-width: 768px) and (max-width: 1024px)").matches;
     const isMobile = window.matchMedia("only screen and (max-width: 767px)").matches;
     const country = (new Date()).toString().split('(')[1].split(" ")[0]
-    const uniqueID = Math.random().toString(36).substr(2, 9) + '_' + new Date().getTime();
+    const unique_ID = generateUniqueId()
     const client_ip = await fetch('https://checkip.amazonaws.com')
         .then(res => res.text());
     const browserAgent = navigator.userAgent;
@@ -11,25 +16,17 @@ async function uChatWidget(config) {
     const browserType = getBrowserType()
     const localValue = localStorage.getItem('uhuruBot');
     const primaryPayload = {
-        "id": uniqueID,
+        "id": unique_ID,
         "client_ip": client_ip,
         "browserAgent": browserAgent,
         "device": deviceType,
         "os": os,
         "browser": browserType,
         "country": country,
-        "bot": {
-            "id": config.BOT_ID,
-        }
+        "bot_id": config.ASSISTANT_ID,
 
     }
 
-
-
-
-    if (!config.BASE_COLOR) {
-        config.BASE_COLOR = "#9f4923"
-    }
     const style = document.createElement("style");
     style.innerHTML = `
     .bot-w-16 {
@@ -198,7 +195,12 @@ async function uChatWidget(config) {
     .bot-rounded-lg {
         border-radius: 0.5rem; 
     }
-    
+    .bot-rounded-right {
+      border-radius: 0.5rem 0.5rem 0.0rem 0.5rem ; 
+    }
+    .bot-rounded-left {
+      border-radius: 0.5rem 0.5rem 0.5rem 0.0rem ; 
+    }
     .bot-px-4 {
         padding-left: 1rem; 
         padding-right: 1rem;
@@ -228,6 +230,43 @@ async function uChatWidget(config) {
     a {
         text-decoration: none;
     }
+    :root {
+      --animationTime: 0.8s;
+      --dotSize: 10px;
+    }
+  
+    .bot-loader {
+      text-align: left;
+    }
+  
+    .bot-loader span {
+      display: inline-block;
+      vertical-align: middle;
+      width: var(--dotSize);
+      height: var(--dotSize);
+      background: black;
+      border-radius: var(--dotSize);
+      animation: loader var(--animationTime) infinite alternate;
+    }
+  
+    .bot-loader span:nth-of-type(2) {
+      animation-delay: 0.2s;
+    }
+  
+    .bot-loader span:nth-of-type(3) {
+      animation-delay: 0.6s;
+    }
+  
+    @keyframes loader {
+      0% {
+        opacity: 0.9;
+        transform: scale(0.5);
+      }
+      100% {
+        opacity: 0.1;
+        transform: scale(1);
+      }
+    }
     
   `;
     document.head.appendChild(style);
@@ -256,7 +295,7 @@ async function uChatWidget(config) {
       <div id="chat-popup" class="bot-hidden bot-absolute bot-bottom-20 bot-right-0 bot-w-96 bot-bg-white bot-rounded-md bot-shadow-md bot-flex bot-flex-col bot-transition-all bot-text-sm">
       <div id="chat-header" class="bot-flex bot-items-center bot-px-4 bot-bg-gray-200 bot-text-white bot-rounded-t-md">
       <div class="bot-flex bot-items-center bot-flex-1">
-      ${config.AVATAR ?
+      ${config.AVATAR && config.AVATAR == null ?
             `<img src="${config.AVATAR}" width="30" style="border-radius: 50%; margin-right: 10px;"/>`
             :
             ` <div id="chat-bubble" style="width: 30px; height: 30px; background-color:white; margin-right: 10px;" class=" bot-rounded-full bot-flex bot-items-center bot-justify-center bot-cursor-pointer bot-text-3xl">
@@ -265,13 +304,12 @@ async function uChatWidget(config) {
         
             `
         }
-          <h3 class="m-0 text-lg">${config.APP_NAME}</h3>
+          <h5 >${config.APP_NAME}</h5>
       </div>
       <div id="minimize-button" >  <svg id="cross-icon" xmlns="http://www.w3.org/2000/svg" class="bot-w-8 bot-h-8 bot-text-white" fill="none" viewBox="0 0 384 512" stroke="currentColor" stroke-width="2">
       <path fill="#ffffff" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
   </svg></div>
   </div>
-  
         <div id="chat-messages" class="bot-flex-1 bot-p-4 bot-overflow-y-auto"></div>
         <div id="chat-input-container" class="bot-p-4 bot-border-t bot-border-gray-200">
           <div class="bot-flex bot-space-x-4 bot-items-center">
@@ -302,7 +340,8 @@ async function uChatWidget(config) {
     const messageIcon = document.getElementById("msg-icon");
     const crossIcon = document.getElementById("cross-icon");
     const minimizeButton = document.getElementById("minimize-button");
-    chatSubmit.addEventListener("click", function () {
+    chatSubmit.addEventListener("click", function (event) {
+
         const message = chatInput.value.trim();
         if (!message) return;
 
@@ -310,6 +349,7 @@ async function uChatWidget(config) {
         chatInput.value = "";
 
         onUserRequest(message);
+        event.preventDefault();
     });
 
     chatInput.addEventListener("keyup", function (event) {
@@ -355,15 +395,14 @@ async function uChatWidget(config) {
     //     }
     //   }
     // });
-
     function onUserRequest(message) {
 
-        if (!localValue) localStorage.setItem('uhuruBot', uniqueID);
+        if (!localValue) localStorage.setItem('uhuruBot', unique_ID);
 
         const messageElement = document.createElement("div");
         messageElement.className = "bot-flex bot-justify-end bot-mb-3";
         messageElement.innerHTML = `
-        <div class="bot-bg-gray-800 bot-text-white bot-rounded-lg bot-py-2 bot-px-4 bot-max-w-[70%]">
+        <div class="bot-bg-gray-800 bot-text-white bot-rounded-right bot-py-2 bot-px-4 bot-max-w-[70%]">
           ${message}
         </div>
       `;
@@ -371,107 +410,124 @@ async function uChatWidget(config) {
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
         chatInput.value = "";
+        loading = true;
+        messageLoading();
         fetchBotResponse(message);
     }
 
 
 
-    function fetchBotResponse(message) {
-
-        let payLoad;
-        if (!localValue) {
-            payLoad = {
-                type: "text", //! Need to remove this line later
-                text: message,
-                //! ...primaryPayload //Need to uncomment this line after getting api
-            }
-        } else {
-            payLoad = {
-                type: "text", //! Need to remove this line later
-                text: message,
-                author: {
-                    id: localValue
-                }
-            }
-        }
-
-
-        if (!config.BP_API_ENDPOINT) {
-            console.warn("BP_API_ENDPOINT is not defined");
+    async function fetchBotResponse(message) {
+        if (!config.UHURUCHAT_ENDPOINT) {
+            console.warn("UHURUCHAT_ENDPOINT is not defined");
             return;
         }
-        fetch(config.BP_API_ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                type: "text", //! Need to remove this line later
-                text: message,
-                //! ...primaryPayload //Need to uncomment this line after getting api
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                decisionFileTypes(data.responses);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
+        if (!threadId) threadId = await initiatedChat();
+        await conversation(threadId, message)
+
+    }
+    async function initiatedChat() {
+        try {
+            const response = await fetch(`${config.UHURUCHAT_ENDPOINT}/chats`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(primaryPayload)
             });
-    }
 
-    function decisionFileTypes(responses) {
-        responses.forEach((response) => {
-            if (response.type === "text") {
-                replyText(response.text);
-            } else if (response.type === "link") {
-                replyLink(response);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-        });
+
+            const data = await response.json();
+            const thread_Id = data.id;
+            return thread_Id;
+        } catch (error) {
+            console.error("Error:", error);
+            loading = false;
+            messageLoading()
+            replyText("Something went wrong. Please try again later")
+            throw error;
+        }
     }
 
+    async function conversation(threadId, message) {
+        try {
+            const response = await fetch(`${config.UHURUCHAT_ENDPOINT}/chats/${threadId}/messages`, {
+                timeout: 300000,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    text: message.trim(),
+                })
+            })
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            loading = false;
+            messageLoading()
+            replyText(data.text)
+            // replyText("Something went wrong. Please try again later")
+        } catch (error) {
+            console.error("Error:", error);
+            loading = false;
+            messageLoading()
+            replyText("Something went wrong. Please try again later")
+            throw error;
+        }
+    }
     function replyText(message) {
-        message = message.replace(/(?:\r\n|\r|\n)/g, "<br>");
         const chatMessages = document.getElementById("chat-messages");
         const replyElement = document.createElement("div");
         replyElement.className = "bot-flex bot-mb-3";
         replyElement.innerHTML = `
-        <div style="display: flex; align-items: center;">
-       ${config.AVATAR ? `
-       <img src="${config.AVATAR}" width="18px" height="18px" style="margin-right: 4px;">` : ` <svg xmlns="http://www.w3.org/2000/svg" style="padding-right: 5px" height="16" width="12" viewBox="0 0 384 512"><path fill="#9f4923" d="M32 32c17.7 0 32 14.3 32 32V288c0 70.7 57.3 128 128 128s128-57.3 128-128V64c0-17.7 14.3-32 32-32s32 14.3 32 32V288c0 106-86 192-192 192S0 394 0 288V64C0 46.3 14.3 32 32 32z"/></svg>
-       `
+          <div style="display: flex; align-items: center;">
+         ${config.AVATAR && config.AVATAR == null ? `
+         <img src="${config.AVATAR}" width="18px" height="18px" style="margin-right: 4px;">` : ` <svg xmlns="http://www.w3.org/2000/svg" style="padding-right: 5px" height="16" width="12" viewBox="0 0 384 512"><path fill="#9f4923" d="M32 32c17.7 0 32 14.3 32 32V288c0 70.7 57.3 128 128 128s128-57.3 128-128V64c0-17.7 14.3-32 32-32s32 14.3 32 32V288c0 106-86 192-192 192S0 394 0 288V64C0 46.3 14.3 32 32 32z"/></svg>
+         `
             }
-        <div style="border: 1px solid ${config.BASE_COLOR};" class="bot-text-black bot-rounded-lg bot-px-4 bot-py-2 bot-max-w-[70%]">
-            ${message}
-        </div>
-        </div>
-    
-      `;
-        chatMessages.appendChild(replyElement);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    // Reply link response
-    function replyLink(link) {
-        const chatMessages = document.getElementById("chat-messages");
-        const replyElement = document.createElement("div");
-        replyElement.className = "bot-flex bot-mb-3";
-        replyElement.innerHTML = `
-        <div style="display: flex; align-items: center;">
-        ${config.AVATAR ? `
-        <img src="${config.AVATAR}" width="18px" height="18px" style="padding-right: 4px;">` : ` <svg xmlns="http://www.w3.org/2000/svg" style="padding-right: 5px" height="16" width="12" viewBox="0 0 384 512"><path fill="#9f4923" d="M32 32c17.7 0 32 14.3 32 32V288c0 70.7 57.3 128 128 128s128-57.3 128-128V64c0-17.7 14.3-32 32-32s32 14.3 32 32V288c0 106-86 192-192 192S0 394 0 288V64C0 46.3 14.3 32 32 32z"/></svg>
-        `
-            }
-        <div style="border: 1px solid ${config.BASE_COLOR};" class="bot-text-black bot-rounded-lg bot-px-4 bot-py-2 bot-max-w-[70%]">
-        <a href="${link.link}" target="_blank">${link.title}</a>
-        </div>
-        </div>
+          <div id="replay" style="border: 1px solid ${config.BASE_COLOR};" class="bot-text-black bot-rounded-left bot-px-4 bot-py-2 bot-max-w-[70%]">
+          ${message}
+          </div>
+          </div>
       
-      `;
+        `;
         chatMessages.appendChild(replyElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    function messageLoading() {
+        if (loading == true) {
+            const chatMessages = document.getElementById("chat-messages");
+            const replyElement = document.createElement("div");
+            replyElement.className = "bot-flex bot-mb-3";
+            replyElement.id = "msg-bot-loader"
+            replyElement.innerHTML = `
+        ${config.AVATAR && config.AVATAR == null ? `
+         <img src="${config.AVATAR}" width="18px" height="18px" style="margin-right: 4px;">` : ` <svg xmlns="http://www.w3.org/2000/svg" style="padding-right: 5px" height="16" width="12" viewBox="0 0 384 512"><path fill="#9f4923" d="M32 32c17.7 0 32 14.3 32 32V288c0 70.7 57.3 128 128 128s128-57.3 128-128V64c0-17.7 14.3-32 32-32s32 14.3 32 32V288c0 106-86 192-192 192S0 394 0 288V64C0 46.3 14.3 32 32 32z"/></svg>
+         `
+                }
+          <div class='bot-loader'>
+        <span></span>
+        <span></span>
+        <span></span>
+        </div>
+        `;
+            chatMessages.appendChild(replyElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        } else {
+            const loaderElement = document.querySelector('#msg-bot-loader');
+            if (loaderElement) {
+                loaderElement.parentNode.removeChild(loaderElement);
+            }
+
+
+        }
+    }
     function getBrowserType() {
         const test = regexp => {
             return regexp.test(navigator.userAgent);
@@ -496,4 +552,30 @@ async function uChatWidget(config) {
             return 'Unknown browser';
         }
     }
+
+    function generateUniqueId() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let uniqueId = '';
+
+        // Generate a random 16-character string
+        for (let i = 0; i < 16; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            uniqueId += characters.charAt(randomIndex);
+        }
+
+        // Hash the generated string using SHA-256
+        const hashedId = sha_256(uniqueId);
+
+        return hashedId;
+    }
+
+    // Simple SHA-256 hashing function (for demonstration purposes)
+    function sha_256(input) {
+        const buffer = new TextEncoder().encode(input);
+        return crypto.subtle.digest('SHA-256', buffer).then(hashBuffer => {
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+        });
+    }
+
 }
