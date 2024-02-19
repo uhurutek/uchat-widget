@@ -2,6 +2,7 @@ async function uChatWidget(config) {
   if (!config.BASE_COLOR) {
     config.BASE_COLOR = "#9f4923"
   }
+  let threadId;
   let loading;
   const style = document.createElement("style");
   style.innerHTML = `
@@ -394,7 +395,6 @@ async function uChatWidget(config) {
       console.warn("UHURUCHAT_ENDPOINT is not defined");
       return;
     }
-    let threadId;
     if (!threadId) threadId = await initiatedChat();
     await conversation(threadId, message)
   }
