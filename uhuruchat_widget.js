@@ -8,9 +8,15 @@ async function uChatWidget(config) {
     const isMobile = window.matchMedia("only screen and (max-width: 767px)").matches;
     const country = (new Date()).toString().split('(')[1].split(" ")[0]
     const unique_ID = generateUniqueId()
-    const IP = await fetch('https://checkip.amazonaws.com')
-        .then(res => res.text());
-    const client_ip = IP ? IP.trim() : '';
+    let client_ip;
+    try {
+        client_ip = await fetch('https://checkip.amazonaws.com')
+            .then(res => res.text());
+        client_ip = client_ip ? client_ip.trim() : '';
+    } catch (e) {
+        console.error(e)
+        client_ip = ''
+    }
     const browserAgent = navigator.userAgent;
     const deviceType = isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Computer';
     const os = navigator.platform
